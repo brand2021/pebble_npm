@@ -1,0 +1,31 @@
+{
+  "name": "pebble_npm",
+  "version": "1.0.0",
+  "description": "connected dots",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brand2021/pebble_npm.git"
+  },
+  "keywords": [
+    "npm",
+    "node",
+    "js",
+    "socket.io",
+    "json",
+    "api",
+    "backend",
+    "services",
+    "express",
+    "nodemon"
+  ],
+  "author": "harry",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brand2021/pebble_npm/issues"
+  },
+  "homepage": "https://github.com/brand2021/pebble_npm#readme"
+}
