@@ -3,7 +3,7 @@ const socketIO = require('socket.io');
 const dotenv = require('dotenv');
 const cool = require('cool-ascii-faces');
 
-const PORT = process.env.PORT||4000;
+const PORT = process.env.PORT || 4000;
 const INDEX = '/index.html';
 
 const app = express();
