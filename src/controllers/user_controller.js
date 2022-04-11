@@ -14,7 +14,7 @@ admin.initializeApp({
 //   // databaseURL: 'https://<DATABASE_NAME>.firebaseio.com'
 });
 // This registration token comes from the client FCM SDKs.
-const registrationToken = 'dT2TzdV8QmGv_YqsmTc8gx:APA91bFhqynC61siMKRtPw3qF52O1GThSSE3yyeKUmW9EFK5M-V25p5-v6FydHLsKPeGwPWSVIM8gBi8Ogy5S8X2RigjRe8bISAsFyL-UuaXgIFf2lmNhEl9rJDO7vZIGjpx_rKp39nl';
+const registrationToken = 'eOtpsvfBTpS5P98wm9W2OO:APA91bFnbgGKtS0cT92E3LhlDC2jucHGa7ZcdB7UEn_-uAB8xeC4wn9yzIqbleqTYPHCi01B8BM5iVJ8K6MfM1ObGXSHlBifDGvd_mZpsQlRDhT22dTQCTWJcwNoZ0Pv5gC69V2tuzmn';
 // Create a list containing up to 500 registration tokens.
 // These registration tokens come from the client FCM SDKs. 
 // const registrationTokens = [
@@ -31,7 +31,7 @@ const payload = {
   },
   notification: {
     title: 'Upto 50% Off on Hair Care',
-    body: 'Shop from 9Gates Naturals, L\'Oreal Professionnel, WOW!'
+    body: 'Shop from Naturals, L\'Oreal Professionnel, WOW!'
   },
   token: registrationToken,
   // topic: topic,
@@ -108,7 +108,8 @@ admin.messaging().sendAll(payload)
 // admin.messaging().sendToDevice(registrationToken, payload, options)
   admin.messaging().send(setNotificationMessage(
       'Someone giggled yoy!',
-      'WOW! What would be yor reaction?')
+      'WOW! What would be yor reaction?', 
+      demoUrls)
   )
   .then((response) => {
     console.log('Successfully sent message:', response);
@@ -128,8 +129,8 @@ const {
   response
 } = require('express');
 
-function setNotificationMessage(titleStr, messageStr){
-  
+function setNotificationMessage(titleStr, messageStr, imgUrl){
+  console.log(imgUrl);
 const payload = {
   data: {
     score: '850',
@@ -137,7 +138,7 @@ const payload = {
   },
   notification: {
     title: titleStr,
-    body: messageStr
+    body: messageStr,
   },
   token: registrationToken,
   // topic: topic,
@@ -145,7 +146,7 @@ const payload = {
   android: {
     ttl: 3600000,
     notification: {
-      imageUrl: demoUrls,
+      imageUrl: imgUrl,
       icon: 'stock_ticker_update',
       color: '#7e55c3',
       clickAction: 'news_intent',
@@ -161,12 +162,12 @@ const payload = {
       }
     },
     fcm_options: {
-      image: demoUrls
+      image: imgUrl
     }
   },
   webpush: {
     headers: {
-      image: demoUrls
+      image: imgUrl
     },
     fcmOptions: {
       link: 'breakingnews.html'
@@ -179,15 +180,28 @@ exports.sendNotification = function (req, res) {
   var post = {
     a: req.body.title,
     b: req.body.message,
+    c: req.body.image,
   }
   var titleStr = post.a;
   var messageStr = post.b;
-  if ( typeof titleStr !== 'undefined' && titleStr ){
+  var imageStr = post.c;
+  if (typeof titleStr !== 'undefined' && titleStr) {
   } else {
     titleStr = req.query.title;
     messageStr = req.query.message;
+    imageStr = req.query.image;
   }
-  const payload = setNotificationMessage(titleStr, messageStr);
+  if(typeof titleStr == 'undefined') {
+    titleStr = 'Title not provided';
+  }
+  if(typeof messageStr == 'undefined') {
+    messageStr = 'Message not provided';
+  }
+  if(typeof imageStr == 'undefined') {
+    imageStr = demoUrls;
+  }
+
+  const payload = setNotificationMessage(titleStr, messageStr, imageStr);
   admin.messaging().send(payload)
   .then((response) => {
     // Response is a message ID string.
