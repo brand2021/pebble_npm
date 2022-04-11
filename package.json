@@ -4,8 +4,7 @@
   "description": "connected dots",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "test": "npm start"
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -16,7 +15,7 @@
     "node",
     "js",
     "socket.io",
-    "json", 
+    "json",
     "api",
     "backend",
     "services",
