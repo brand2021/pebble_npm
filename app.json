@@ -1,0 +1,13 @@
+{
+    "name": "bumaco-npm",
+    "description": "WebSockets,video-conference-chat,one-to-one,one-to-many,api,heroku",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/brand2021/pebble-npm.git"
+    },
+    "keywords": [
+        "node",
+        "websocket",
+        "socket.io"
+    ]
+}
