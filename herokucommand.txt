@@ -1,0 +1,3 @@
+$ heroku run rails console
+$ heroku restart
+$ git push heroku

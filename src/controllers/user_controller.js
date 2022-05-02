@@ -14,7 +14,7 @@ admin.initializeApp({
 //   // databaseURL: 'https://<DATABASE_NAME>.firebaseio.com'
 });
 // This registration token comes from the client FCM SDKs.
-const registrationToken = 'eOtpsvfBTpS5P98wm9W2OO:APA91bFnbgGKtS0cT92E3LhlDC2jucHGa7ZcdB7UEn_-uAB8xeC4wn9yzIqbleqTYPHCi01B8BM5iVJ8K6MfM1ObGXSHlBifDGvd_mZpsQlRDhT22dTQCTWJcwNoZ0Pv5gC69V2tuzmn';
+const registrationToken = 'eYQkjq1CRsKi7xmEC6I8zc:APA91bGmkKtzr_6Hs-hMHX-oF-K3zjJ8ohRxZghsiIcrQ0kB-zfFTz7CCCu6W_b4HQNvLfkNmpz46aKV5iJBW954l5kX4nLbSdDzmTbeTqJxS1UPaRN90FOLC3n9U_FA4OAImQgKJ57p';
 // Create a list containing up to 500 registration tokens.
 // These registration tokens come from the client FCM SDKs. 
 // const registrationTokens = [
