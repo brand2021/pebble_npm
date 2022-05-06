@@ -14,7 +14,7 @@ admin.initializeApp({
 //   // databaseURL: 'https://<DATABASE_NAME>.firebaseio.com'
 });
 // This registration token comes from the client FCM SDKs.
-const registrationToken = 'eYQkjq1CRsKi7xmEC6I8zc:APA91bGmkKtzr_6Hs-hMHX-oF-K3zjJ8ohRxZghsiIcrQ0kB-zfFTz7CCCu6W_b4HQNvLfkNmpz46aKV5iJBW954l5kX4nLbSdDzmTbeTqJxS1UPaRN90FOLC3n9U_FA4OAImQgKJ57p';
+const registrationToken = 'cBGeBQnnQhiyDnQvMqYYQ9:APA91bGPAjvKRjwxQwsERebju6NBm28Sto4CyvF2Wukz-b_oI-4caQ3Ty5SUlY7Vs_2_W1L2VNMYjP6bPIMazKU_8QdmwMaJSErEISsyoCxkZldNz_KV75jBAnepcgz4rikREJeyPAQ2';
 // Create a list containing up to 500 registration tokens.
 // These registration tokens come from the client FCM SDKs. 
 // const registrationTokens = [
@@ -109,7 +109,7 @@ admin.messaging().sendAll(payload)
   admin.messaging().send(setNotificationMessage(
       'Someone giggled yoy!',
       'WOW! What would be yor reaction?', 
-      demoUrls)
+      demoUrls, registrationToken)
   )
   .then((response) => {
     console.log('Successfully sent message:', response);
@@ -129,7 +129,7 @@ const {
   response
 } = require('express');
 
-function setNotificationMessage(titleStr, messageStr, imgUrl){
+function setNotificationMessage(titleStr, messageStr, imgUrl, tokenId){
   console.log(imgUrl);
 const payload = {
   data: {
@@ -140,7 +140,7 @@ const payload = {
     title: titleStr,
     body: messageStr,
   },
-  token: registrationToken,
+  token: tokenId,
   // topic: topic,
   // condition: condition
   android: {
@@ -176,20 +176,23 @@ const payload = {
 };
 return payload;
 }
-exports.sendNotification = function (req, res) {
+exports.sendNotification = function (req, res) {//notif-api
   var post = {
     a: req.body.title,
     b: req.body.message,
     c: req.body.image,
+    d: req.body.token,
   }
   var titleStr = post.a;
   var messageStr = post.b;
   var imageStr = post.c;
+  var tokenStr = post.d;
   if (typeof titleStr !== 'undefined' && titleStr) {
   } else {
     titleStr = req.query.title;
     messageStr = req.query.message;
     imageStr = req.query.image;
+    tokenStr = req.query.token;
   }
   if(typeof titleStr == 'undefined') {
     titleStr = 'Title not provided';
@@ -200,8 +203,11 @@ exports.sendNotification = function (req, res) {
   if(typeof imageStr == 'undefined') {
     imageStr = demoUrls;
   }
+  if(typeof tokenStr == 'undefined') {
+    tokenStr = registrationToken;
+  }
 
-  const payload = setNotificationMessage(titleStr, messageStr, imageStr);
+  const payload = setNotificationMessage(titleStr, messageStr, imageStr, tokenStr);
   admin.messaging().send(payload)
   .then((response) => {
     // Response is a message ID string.
