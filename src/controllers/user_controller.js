@@ -3,8 +3,28 @@ const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 var mysql = require("mysql");
 var admin = require("firebase-admin");
+const { 
+  v1: uuidv1,
+  v4: uuidv4,
+} = require('uuid');
 var serviceAccount = require("../../giggle-2022-firebase-adminsdk-6nk6l-7cf7b248eb.json");
 const demoUrls ='https://brandhype.co.in/bumaco/uploads/20211027131025_557455.jpg';
+var date_ob = new Date();
+var day = ("0" + date_ob.getDate()).slice(-2);
+var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+var year = date_ob.getFullYear();
+   
+var date = year + "-" + month + "-" + day;
+console.log(date);
+    
+var hours = date_ob.getHours();
+var minutes = date_ob.getMinutes();
+var seconds = date_ob.getSeconds();
+var amPm = 'PM'
+  
+// year + "-" + month + "-" + day + " " +  
+var dateTime = 
+hours + ":" + minutes + " " + amPm;
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -14,7 +34,18 @@ admin.initializeApp({
 //   // databaseURL: 'https://<DATABASE_NAME>.firebaseio.com'
 });
 // This registration token comes from the client FCM SDKs.
-const registrationToken = 'cBGeBQnnQhiyDnQvMqYYQ9:APA91bGPAjvKRjwxQwsERebju6NBm28Sto4CyvF2Wukz-b_oI-4caQ3Ty5SUlY7Vs_2_W1L2VNMYjP6bPIMazKU_8QdmwMaJSErEISsyoCxkZldNz_KV75jBAnepcgz4rikREJeyPAQ2';
+const registrationToken = 'cTPiqeVoQ2iOXSDdWu6BL4:APA91bF9hv7FU1wP2qlNA907Co9ExdcDZ0YlkE0x4KD_l_LtaUBacZsSWs71ufNS0wuy4N_6NI5lEvmCcg6I3XxrTWfTyW2L0lW4nOovGJKx5UgV3AbSKdq7W_vv1FOWVei8iPdJ_yGK';
+// var currentAction = 'PROFILE_COMPLETE_VERIFICATION';
+var currentAction = 'PROFILE_ACTIVATED';
+// var currentAction = 'LIKE';
+// var currentAction = 'CONNECTION';
+// var currentAction = 'MESSAGE';
+// var currentAction = 'PROFILE_DEACTIVATED';
+// var currentAction = '';
+// var currentAction = '';
+// var currentAction = '';
+// var currentAction = '';
+
 // Create a list containing up to 500 registration tokens.
 // These registration tokens come from the client FCM SDKs. 
 // const registrationTokens = [
@@ -26,10 +57,17 @@ const registrationToken = 'cBGeBQnnQhiyDnQvMqYYQ9:APA91bGPAjvKRjwxQwsERebju6NBm2
 // const condition = '\'stock-GOOG\' in topics || \'industry-tech\' in topics';
 const payload = {
   data: {
+    id: uuidv1(),
+    user_id: '200',
     score: '850',
-    time: '16:22'
+    time: dateTime,
+    index: '1',
+    action: currentAction,
+    title: 'Upto 50% Off on Hair Care',
+    body: 'Shop from Naturals, L\'Oreal Professionnel, WOW!',
   },
   notification: {
+    "content_available": false,
     title: 'Upto 50% Off on Hair Care',
     body: 'Shop from Naturals, L\'Oreal Professionnel, WOW!'
   },
@@ -39,7 +77,7 @@ const payload = {
   android: {
     ttl: 3600000,
     notification: {
-      imageUrl: demoUrls,
+      // imageUrl: demoUrls,
       icon: 'stock_ticker_update',
       color: '#7e55c3',
       clickAction: 'news_intent',
@@ -119,7 +157,6 @@ admin.messaging().sendAll(payload)
   });
 
 //---------------------------------------------------------------
-
 var con = require("../../config/db.js");
 var app_const = require("../../config/app_const.js");
 const {
@@ -133,8 +170,14 @@ function setNotificationMessage(titleStr, messageStr, imgUrl, tokenId){
   console.log(imgUrl);
 const payload = {
   data: {
+    id: uuidv1(),
+    user_id: '200',
+    time: dateTime,
     score: '850',
-    time: '16:22'
+    index: '1',
+    action: currentAction,
+    title: 'Upto 50% Off on Hair Care',
+    body: 'Shop from Naturals, L\'Oreal Professionnel, WOW!',
   },
   notification: {
     title: titleStr,
@@ -146,7 +189,7 @@ const payload = {
   android: {
     ttl: 3600000,
     notification: {
-      imageUrl: imgUrl,
+      // imageUrl: imgUrl,
       icon: 'stock_ticker_update',
       color: '#7e55c3',
       clickAction: 'news_intent',
