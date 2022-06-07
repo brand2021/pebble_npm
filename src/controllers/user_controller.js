@@ -203,7 +203,7 @@ const payload = {
       // imageUrl: imgUrl,
       icon: '@drawable/ic_stat_giggle',
       color: '#7e55c3',
-      clickAction: 'GIGGLE_NOTIFICATION',
+      clickAction: 'DEFAULT_EVENT_ACTION',
       bodyLocKey: 'STOCK_NOTIFICATION_BODY',
       bodyLocArgs: ['Brandhype', '11.80', '835.67', '1.43'],
       channelId: "high_importance_channel"
