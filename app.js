@@ -45,7 +45,7 @@ io.on('connection', (socket) => {
     socket.emit('broadcast', connectedUser.size);
     // io.emit('broadcast', connectedUser.size);
 
-    socket.on('disconnect',()=>{
+    socket.on('disconnect',()=> {
         console.log('Disconnected-ID-->',socket.id);
         connectedUser.delete(socket.id);
         socket.broadcast.emit('connected-user',connectedUser.size);
@@ -62,3 +62,47 @@ io.on('connection', (socket) => {
 // socket.on('reply', () => { /* … */ }); // listen to the event
     });
 });
+
+//---------pubnub-chat-node-hari-----------------
+// const PubNub = require("pubnub");
+
+// const pubnub = new PubNub({
+//   publishKey: "pub-c-018f53fd-222e-422b-bda1-a8894d4d3df7",
+//   subscribeKey: "sub-c-d27f42fb-fa67-40f8-9618-f8512fea9163",
+//   uuid: "myUniqueUUID",
+// });
+
+// async function publishSampleMessage() {
+//   console.log(
+//     "Since we're publishing on subscribe connectEvent, we're sure we'll receive the following publish."
+//   );
+//   const result = await pubnub.publish({
+//     channel: "hello_world",
+//     message: {
+//       title: "greeting",
+//       description: "hello world!",
+//     },
+//   });
+//   console.log(result);
+// }
+
+// pubnub.addListener({
+//   status: function (statusEvent) {
+//     if (statusEvent.category === "PNConnectedCategory") {
+//       publishSampleMessage();
+//     }
+//   },
+//   message: function (messageEvent) {
+//     console.log(messageEvent.message.title);
+//     console.log(messageEvent.message.description);
+//   },
+//   presence: function (presenceEvent) {
+//     // handle presence
+//   },
+// });
+// console.log("Subscribing..");
+
+// pubnub.subscribe({
+//   channels: ["hello_world"],
+// });
+//------pubnub-end-region============

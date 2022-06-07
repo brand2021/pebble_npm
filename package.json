@@ -40,6 +40,7 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.14",
     "path": "^0.12.7",
+    "pubnub": "^7.0.1",
     "razorpay": "^2.0.7",
     "sequelize": "^6.12.0-alpha.1",
     "socket.io": "^2.4.1",

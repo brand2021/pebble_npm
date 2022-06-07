@@ -34,11 +34,15 @@ admin.initializeApp({
 //   // databaseURL: 'https://<DATABASE_NAME>.firebaseio.com'
 });
 // This registration token comes from the client FCM SDKs.
-const registrationToken = 'cTPiqeVoQ2iOXSDdWu6BL4:APA91bF9hv7FU1wP2qlNA907Co9ExdcDZ0YlkE0x4KD_l_LtaUBacZsSWs71ufNS0wuy4N_6NI5lEvmCcg6I3XxrTWfTyW2L0lW4nOovGJKx5UgV3AbSKdq7W_vv1FOWVei8iPdJ_yGK';
+const aRegistrationToken = 'e5csMk2VQr2ZNznWRU6MoG:APA91bHmvgTKCUkJcml9esO-9b9s6bosX3hLzGtkO9BFfL9mH0sv9WGV-armtw9Dik0ryhdObdBuO09ZRZnmR1aqgnka1stz2wWucVSBTvpwCzFrPInhAeb1aktzA_hm3zjwr7HgvKOJ';
+const iRegistrationToken = 'eS_Kyj3dtEd5mjxM8XVxh5:APA91bHyRt33PtoNe7VOYqaYRAUgX3BF3eWNJ9zGzXPgmhuYOT3f7HymkqTUEvofKxuEdQhHuUns10eRP_Vgm_nkOnnA7M81MJNCVETK6Z_umH8c9CCiK8pJ6xCR07qdg8X-DoMBqVsB';
+const iRegistrationToken1 = 'dTolLSE6kkucnuRcO0uG0Y:APA91bExt8Sq5dyamiX1Wvh97tbF7oJJH3bfEwU_tpBPXyZrVvKME6azqVCHgipC5l54Jh6zE13MOHHsckvIwPDZWHbj1fHWPWdKW7dYJFljbSWRt52kGgDnXiOwq3Lrc5WYqcZ8ZbF2';
+const iRegistrationToken2 = 'cD466E7Ob0-LkzjWKL5ick:APA91bHSUtHzuCj0s-1bV3Jmh_Blu3OCsAvt672d20_ildTQQ6UqKpKmHMee42Ml9FfEudO9so6uOHqD7omutbxtFIEFvYS4MX65qKVgobtfhm8kHcdQcFn_bNjqHPOv2MUwArwDnxPk';
+const iPraveenToken = 'detVvjOZykYUloZ0c8wouZ:APA91bGMpsSPy1dchuGowzaB3v9gKSml65nchnDgM1J0lFy4NfKlWEDcpsCA0HED-fBl2wolpnB3AA3quZ76tD-NvfTI97YjKFKsN480_ANKru6D8Ibzs5-c92DG8YKsQT6uiI1iX0e7';
 // var currentAction = 'PROFILE_COMPLETE_VERIFICATION';
-var currentAction = 'PROFILE_ACTIVATED';
+// var currentAction = 'PROFILE_ACTIVATED';
 // var currentAction = 'LIKE';
-// var currentAction = 'CONNECTION';
+var currentAction = 'CONNECTION';
 // var currentAction = 'MESSAGE';
 // var currentAction = 'PROFILE_DEACTIVATED';
 // var currentAction = '';
@@ -48,13 +52,15 @@ var currentAction = 'PROFILE_ACTIVATED';
 
 // Create a list containing up to 500 registration tokens.
 // These registration tokens come from the client FCM SDKs. 
-// const registrationTokens = [
-//   'YOUR_REGISTRATION_TOKEN_1',
-//   // …
-//   'YOUR_REGISTRATION_TOKEN_N',
-// ];
-// const topic = 'highScores';
-// const condition = '\'stock-GOOG\' in topics || \'industry-tech\' in topics';
+const registrationTokens = [
+  aRegistrationToken,
+  // iRegistrationToken,
+  // iRegistrationToken1,
+  // iRegistrationToken2,
+  iPraveenToken,
+];
+const topic = 'all';
+const condition = '\'stock-GOOG\' in topics || \'industry-tech\' in topics';
 const payload = {
   data: {
     id: uuidv1(),
@@ -66,14 +72,15 @@ const payload = {
     title: 'Upto 50% Off on Hair Care',
     body: 'Shop from Naturals, L\'Oreal Professionnel, WOW!',
   },
+  topic: topic,
+  condition: condition,
   notification: {
     "content_available": false,
     title: 'Upto 50% Off on Hair Care',
-    body: 'Shop from Naturals, L\'Oreal Professionnel, WOW!'
+    body: 'Shop from Naturals, L\'Oreal Professionnel, WOW!',
+    android_channel_id: "high_importance_channel"
   },
-  token: registrationToken,
-  // topic: topic,
-  // condition: condition
+  token: iRegistrationToken,
   android: {
     ttl: 3600000,
     notification: {
@@ -90,6 +97,8 @@ const payload = {
       aps: {
         'mutable-content': 1,
         'category': 'INVITE_CATEGORY'
+        // topic: 'topic',
+        // environment: Environment.development
       }
     },
     fcm_options: {
@@ -144,10 +153,10 @@ admin.messaging().sendAll(payload)
 //   timeToLive: 60 * 60 * 24
 // };
 // admin.messaging().sendToDevice(registrationToken, payload, options)
-  admin.messaging().send(setNotificationMessage(
-      'Someone giggled yoy!',
-      'WOW! What would be yor reaction?', 
-      demoUrls, registrationToken)
+  admin.messaging().sendMulticast(setNotificationMessage(
+      'Someone giggled yoy!!',
+      'WOW! What would be yor reaction??', 
+      demoUrls, iRegistrationToken)
   )
   .then((response) => {
     console.log('Successfully sent message:', response);
@@ -166,43 +175,70 @@ const {
   response
 } = require('express');
 
-function setNotificationMessage(titleStr, messageStr, imgUrl, tokenId){
+function setNotificationMessage(titleStr, messageStr, imgUrl, tokenId) {//testing notification
   console.log(imgUrl);
 const payload = {
   data: {
     id: uuidv1(),
-    user_id: '200',
+    user_id: '201',
     time: dateTime,
     score: '850',
     index: '1',
     action: currentAction,
-    title: 'Upto 50% Off on Hair Care',
+    title: 'Upto 50% Off on Hair Care..',
     body: 'Shop from Naturals, L\'Oreal Professionnel, WOW!',
   },
+  topic: topic,
+  condition: condition,
   notification: {
     title: titleStr,
     body: messageStr,
   },
-  token: tokenId,
-  // topic: topic,
-  // condition: condition
+  tokens: registrationTokens,
+  // token: tokenId,
   android: {
+    // "ttl":"86400s",
     ttl: 3600000,
     notification: {
       // imageUrl: imgUrl,
-      icon: 'stock_ticker_update',
+      icon: '@drawable/ic_stat_giggle',
       color: '#7e55c3',
-      clickAction: 'news_intent',
+      clickAction: 'GIGGLE_NOTIFICATION',
       bodyLocKey: 'STOCK_NOTIFICATION_BODY',
-      bodyLocArgs: ['Brandhype', '11.80', '835.67', '1.43']
+      bodyLocArgs: ['Brandhype', '11.80', '835.67', '1.43'],
+      channelId: "high_importance_channel"
     }
   },
   apns: {
+    headers: {
+      "apns-priority": "5",
+    },
     payload: {
       aps: {
+        // alert: {
+        //   locKey: 'STOCK_NOTIFICATION_BODY',
+        //   locArgs: ['FooCorp', '11.80', '835.67', '1.43']
+        // },
+        "alert": {
+          "title": "Someone giggled yoy!!",
+          "body": "WOW! Let's open app and check whose this! 🎉",
+          // "sound": "default"
+        },
+        // "alert" : "Notification test",
+        "badge" : 9,
+        "sound" : "default",
+        // "mutable-content" : false,
         'mutable-content': 1,
-        'category': 'INVITE_CATEGORY'
-      }
+        // category:'INVITE_CATEGORY',
+        // topic: topic,
+        // environment: Environment.development,
+        // environment: 'development'
+      },
+      "image_url": imgUrl,
+      // "event_type": "file_added",
+      // "Simulator Target Bundle": "com.brandhype.giggle",
+      // "gcm.message_id": "123",
+      // "example-data-key": "example-data-value"
     },
     fcm_options: {
       image: imgUrl
@@ -210,6 +246,7 @@ const payload = {
   },
   webpush: {
     headers: {
+      ttl:"86400",
       image: imgUrl
     },
     fcmOptions: {
@@ -247,14 +284,23 @@ exports.sendNotification = function (req, res) {//notif-api
     imageStr = demoUrls;
   }
   if(typeof tokenStr == 'undefined') {
-    tokenStr = registrationToken;
+    tokenStr = iRegistrationToken;
   }
 
   const payload = setNotificationMessage(titleStr, messageStr, imageStr, tokenStr);
-  admin.messaging().send(payload)
+  admin.messaging().sendMulticast(payload)
   .then((response) => {
     // Response is a message ID string.
     console.log('Successfully sent message:', response);
+    if (response.failureCount > 0) {
+      const failedTokens = [];
+      response.responses.forEach((resp, idx) => {
+        if (!resp.success) {
+          failedTokens.push(registrationTokens[idx]);
+        }
+      });
+      console.log('List of tokens that caused failures: ' + failedTokens);
+    }
     res.json({
       code: 200,
       status: true,
